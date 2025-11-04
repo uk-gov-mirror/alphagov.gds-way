@@ -53,7 +53,7 @@ You must enable Multi-factor Authentication (MFA) on your `gds-users` user,
 otherwise you will not be able to assume roles in other AWS accounts.
 
 You may add up to 8 MFA devices. However, note that __MFA device names must be
-prefixed with your IAM username (usually your email addres)__, otherwise you
+prefixed with your IAM username (usually your email address)__, otherwise you
 will receive a permissions error.
 
 You can add MFA devices by clicking your username in the top right corner and
@@ -67,30 +67,32 @@ authentication (MFA)" section and click "Assign MFA device".
 The device name _must_ be prefixed with your IAM username, which is usually your
 email address. If you do not do this you will receive a permissions error.
 
-You will usually want to add the "Authenticator app" device type for things like
-Google Authenticator and Yubikeys, but you may want to choose "Security Key" if
-you are adding a FIDO device.
+You will usually want to add the "Authenticator app" device type - using software such as
+Google Authenticator or Yubikeys' TOTP/OATH functionality. This MFA device type is required when using gds-cli.
+
+You may also choose to add a "Passkey or security key" - a passkey held on your device or password manager, or FIDO security key such as a Yubikey (FIDO is Yubikey's primary way of use). This MFA type has the advantage of being non-phishable. And you might well prefer the usability, when logging into the AWS console (but it doesn't work with gds-cli, due to [limitations around FIDO and STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html)).
+
+![Select MFA device image](../images/working-with-aws-accounts/select-mfa-device.png)
 
 Click Next.
 
-![Assign MFA device image](../images/working-with-aws-accounts/assign-mfa-device.png)
+If adding an "Authenticator app", on the "Set up device" page, you can choose to either display the QR code for
+apps like Google Authenticator, or "Show secret key" if you are using something
+like a Yubikey for TOTP/OATH with ykman. Once you have added the QR code or secret key to your Authenticator app or app, you will need to input two consecutive one-time codes from your device and click "Add MFA".
 
-On the "Set up device" page you can choose to either display the QR code for
-apps like Google Authenticator or "Show secret key" if you are using something
-like a Yubikey with ykman.
+![Set up TOTP MFA device image](../images/working-with-aws-accounts/set-up-totp-mfa-device.png)
 
-Once you have added the code to your MFA device or app you will need to input
-two consecutive one-time codes from your device and click "Add MFA".
+Else if adding a "Passkey or security key", then depending on your browser and device configuration you may be able to store it in your Yubikey, laptop or password manager. Once complete, click "Add MFA".
 
-![Set up MFA device image](../images/working-with-aws-accounts/set-up-mfa-device.png)
-
-If you have done this correctly you should now see a device listed in the MFA
+You should now see the new MFA device listed in the MFA
 section of the "My security credentials" page.
 
 ![MFA devices image](../images/working-with-aws-accounts/mfa-devices.png)
 
+("Virtual" means "Authenticator app")
+
 You should test that you can sign out and back in again successfully, and that
-you are prompted for an MFA code.
+you are prompted for MFA.
 
 Further guidance on adding MFA can be found [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_virtual.html).
 
